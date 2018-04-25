@@ -1,0 +1,36 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: AWS
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+
+# The `functions` block defines what code to deploy
+functions:
+  getDevice:
+    handler: bin/GetDevice
+    # get devices from dynamoDB with id
+    events:
+      - http:
+          path: devices/{id}
+          method: get
+          cors: true
+
+functions:
+  postDevice:
+    handler: bin/PostDevice
+    # post devices to dynamoDB
+    events:
+      - http:
+          path: devices
+          method: post
+          cors: true
